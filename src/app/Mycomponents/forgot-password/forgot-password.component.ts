@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import {FormControl, FormGroupDirective,NgForm, Validators, FormGroup} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { AuthService } from "../../shared/service/auth.service";
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -15,18 +15,50 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./forgot-password.component.css']
 })
 export class ForgotPasswordComponent{
-
+  loading = false;
   constructor(
     public authService: AuthService
   ) { }
 
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
+  form  = new FormGroup({
+    emailFormControl : new FormControl('', [
+      Validators.required,
+      Validators.email,
+    ]),
+  
+   
+  
+  }); 
+  
+
+  
+
+
+  forgotPassword(valx:any){
+
+    
+ if(this.form.valid){
+  this.loading = true;
+  this.authService.ForgotPassword(valx).then(()=>{
+
+   this.loading = false;
+  });
+
+ return false;
+
+}else{
+
+ return false;
+
+}
+
+    
+  }
 
  
 
   matcher = new MyErrorStateMatcher();
+
+  get f() {  return this.form.controls; }
 
 }
