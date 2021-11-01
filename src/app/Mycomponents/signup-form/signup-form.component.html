@@ -2,35 +2,38 @@
     <button mat-raised-button color="warn" type="button" class="btn googleBtn" (click)="authService.GoogleAuth()"><i class="fab fa-google-plus-g"></i> Sign in With Google</button>
   </div>
   <div class="RuleWithText mt-20 mb-20">Or</div>
-<form class="example-form mt-20">
+<form [formGroup]="form" (submit)="signup(userEmail.value, userPwd.value)" class="example-form mt-20">
    
-    <mat-form-field class="example-full-width w-100" appearance="fill">
+    <mat-form-field class="example-full-width w-100 mb-10" appearance="outline">
       <mat-label>Email</mat-label>
-      <input type="email" matInput [formControl]="emailFormControl" #userEmail [errorStateMatcher]="matcher"
+      <input type="email" matInput formControlName="emailFormControl" #userEmail [errorStateMatcher]="matcher"
              placeholder="Ex. pat@example.com">
       <mat-hint>Errors appear instantly!</mat-hint>
-      <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+      <mat-error *ngIf="f.emailFormControl.hasError('email') && !f.emailFormControl.hasError('required')">
         Please enter a valid email address
       </mat-error>
-      <mat-error *ngIf="emailFormControl.hasError('required')">
+      <mat-error *ngIf="f.emailFormControl.hasError('required')">
         Email is <strong>required</strong>
       </mat-error>
     </mat-form-field>
-    <mat-form-field class="example-full-width w-100" appearance="fill">
+    <mat-form-field class="example-full-width w-100" appearance="outline">
       <mat-label>Password</mat-label>
-      <input type="password" matInput [formControl]="passwordFormControl" #userPwd [errorStateMatcher]="matcher"
+      <input type="password" matInput formControlName="passwordFormControl" #userPwd [errorStateMatcher]="matcher"
              placeholder="Enter Password">
       <mat-hint>Errors appear instantly!</mat-hint>
-      <mat-error *ngIf="passwordFormControl.hasError('password') && !passwordFormControl.hasError('required')">
+      <mat-error *ngIf="f.passwordFormControl.hasError('password') && !f.passwordFormControl.hasError('required')">
         Please enter a valid Password
       </mat-error>
-      <mat-error *ngIf="passwordFormControl.hasError('required')">
+      <mat-error *ngIf="f.passwordFormControl.hasError('pattern') && !f.passwordFormControl.hasError('password') && !f.passwordFormControl.hasError('required')">
+        Password Must be At least 8 characters in length and atleast 1 Lowercase, Uppercase letters, Numbers, Special characters
+      </mat-error>
+      <mat-error *ngIf="f.passwordFormControl.hasError('required')">
         Password is <strong>required</strong>
       </mat-error>
     </mat-form-field>
     <mat-grid-list cols="2" rowHeight="2:1">
       <mat-grid-tile class="pos-left"><a class="font-sm" routerLink="">Already Have An Account ?</a></mat-grid-tile>
-      <mat-grid-tile class="pos-right"><button mat-raised-button color="primary" (click)="authService.SignUp(userEmail.value, userPwd.value)" type="button">Sign Up</button></mat-grid-tile>
+      <mat-grid-tile class="pos-right"><button mat-raised-button color="primary"  [class.spinner]="loading" [disabled]="loading" type="submit">Sign Up</button></mat-grid-tile>
    
   </mat-grid-list>
 

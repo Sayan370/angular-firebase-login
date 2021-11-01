@@ -1,1 +1,22 @@
-body { background-color:grey !important; }
+
+.login-notify{
+
+    background-color: #42ff6f;
+    color:black;
+}
+
+.error-notify{
+
+    background-color: #f44336;
+}
+
+.show-overflow { background-color:grey !important; }
+.mat-form-field-appearance-fill .mat-form-field-flex{
+
+    background-color: white;
+}
+
+.mb-10{
+
+    margin-bottom: 10px;
+}

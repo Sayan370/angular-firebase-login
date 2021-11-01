@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import {FormControl, FormGroupDirective,NgForm, Validators, FormGroup} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { AuthService } from "../../shared/service/auth.service";
 
@@ -17,19 +17,63 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./custom-form.component.css']
 })
 export class CustomFormComponent {
-  constructor(
-    public authService: AuthService
-  ) { }
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
-
-  passwordFormControl = new FormControl('', [
-    Validators.required
-  ]);
-
-  matcher = new MyErrorStateMatcher();
+  loading = false;
+  loading1 = false;
   
+  constructor(
+    public authService: AuthService,
+  
+
+
+   
+  ) { }
+
+  form  = new FormGroup({
+    emailFormControl : new FormControl('', [
+      Validators.required,
+      Validators.email,
+    ]),
+  
+    passwordFormControl : new FormControl('', [
+      Validators.required,
+      Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^\w\d])[A-Za-z\d^\w\d|,.].{8,}')
+    ]),
+  
+  }); 
+  
+ 
+  matcher = new MyErrorStateMatcher();
+
+  save(username:any,userpassword:any): boolean {
+
+ 
+
+ if(this.form.valid){
+   this.loading = true;
+   this.authService.SignIn(username, userpassword).then(()=>{
+
+    this.loading = false;
+   });
+
+  return false;
+
+ }else{
+
+  return false;
+
+ }
+
+
+  
+  }
+  gLogin(): void{
+    this.loading1 = true;
+    this.authService.GoogleAuth().then(()=>{
+
+      this.loading1 = false;
+     });
+   }
+  
+   get f() {  return this.form.controls; }
 
 }

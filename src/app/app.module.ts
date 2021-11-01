@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+
+
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -10,11 +12,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { ReactiveFormsModule } from '@angular/forms';
-
-import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
-import { GoogleLoginProvider } from 'angularx-social-login';
 import { CustomFormComponent } from './Mycomponents/custom-form/custom-form.component';
 import {MatInputModule} from '@angular/material/input';
 import { RegisterComponent } from './Mycomponents/register/register.component';
@@ -27,6 +27,7 @@ import { AuthService } from "./shared/service/auth.service";
 import { ForgotPasswordComponent } from './Mycomponents/forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from './Mycomponents/verify-email/verify-email.component';
 import { DashboardComponent } from './Mycomponents/dashboard/dashboard.component';
+import { AuthGuard } from './shared/guard/auth.guard';
 
 @NgModule({
   declarations: [
@@ -50,26 +51,15 @@ import { DashboardComponent } from './Mycomponents/dashboard/dashboard.component
     MatButtonModule,
     MatCardModule,
     MatGridListModule,
+    MatSnackBarModule,
+    FormsModule,
     ReactiveFormsModule,
-    SocialLoginModule,
     MatInputModule 
   ],
   providers: [
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              '60103749195-7hf4uioi9mdc3ltpekbuk91c5a6mvkfo.apps.googleusercontent.com'
-            )
-          }
-        ]
-      } as SocialAuthServiceConfig,
-    },
-    AuthService   
+   
+    AuthService,
+    AuthGuard  
   ],
   bootstrap: [AppComponent]
 })

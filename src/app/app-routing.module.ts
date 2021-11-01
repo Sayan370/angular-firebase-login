@@ -5,15 +5,16 @@ import { NotFoundComponent } from './Mycomponents/not-found/not-found.component'
 import { LoginComponent } from './Mycomponents/login/login.component';
 import { ForgotPasswordComponent } from './Mycomponents/forgot-password/forgot-password.component';
 import { VerifyEmailComponent } from './Mycomponents/verify-email/verify-email.component';
-import { AuthGuard } from "./shared/guard/auth.guard";
-import { LoginAuthGuard } from "./shared/guard/login-auth.guard";
 import { DashboardComponent } from './Mycomponents/dashboard/dashboard.component';
+
+import { AuthGuard } from "./shared/guard/auth.guard";
+
 const routes: Routes = [
-  { path: 'register', component: RegisterComponent, canActivate: [LoginAuthGuard] },
-  { path: '', component: LoginComponent, canActivate: [LoginAuthGuard]},
+  { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
+  { path: '', component: LoginComponent, canActivate: [AuthGuard]},
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'forgot-password', component: ForgotPasswordComponent,  canActivate: [LoginAuthGuard]},
-  { path: 'verify-email', component: VerifyEmailComponent,canActivate: [LoginAuthGuard]},
+  { path: 'forgot-password', component: ForgotPasswordComponent,  canActivate: [AuthGuard]},
+  { path: 'verify-email', component: VerifyEmailComponent,canActivate: [AuthGuard]},
   { path: '**', component: NotFoundComponent },
 ];
 

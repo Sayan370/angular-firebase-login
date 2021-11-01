@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import {FormControl, FormGroupDirective,NgForm, Validators, FormGroup} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { AuthService } from "../../shared/service/auth.service";
 
@@ -20,22 +20,47 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 
 export class SignupFormComponent{
-
+  loading = false;
+  loading1 = false;
   constructor(
     public authService: AuthService
   ) { }
 
-
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
-
-  passwordFormControl = new FormControl('', [
-    Validators.required
-  ]);
+  form  = new FormGroup({
+    emailFormControl : new FormControl('', [
+      Validators.required,
+      Validators.email,
+    ]),
+  
+    passwordFormControl : new FormControl('', [
+      Validators.required,
+      Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^\w\d])[A-Za-z\d^\w\d|,.].{8,}')
+    ]),
+  
+  }); 
   
 
   matcher = new MyErrorStateMatcher();
+
+  signup(useremail:any,passwords:any): any{
+
+    
+
+ if(this.form.valid){
+    this.loading=true;
+
+    this.authService.SignUp(useremail, passwords).then(()=>{
+
+      this.loading=false;
+    })
+
+    return false;
+  }else{
+
+    return false;
+  }
+  }
+
+  get f() {  return this.form.controls; }
   
 }

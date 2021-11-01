@@ -1,9 +1,11 @@
 import { Injectable, NgZone } from '@angular/core';
+import { interval } from 'rxjs';
 import { User } from "../services/user";
 import { auth } from 'firebase/app';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from "@angular/router";
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +13,14 @@ import { Router } from "@angular/router";
 
 export class AuthService {
   userData: any; // Save logged in user data
+ 
 
   constructor(
     public afs: AngularFirestore,   // Inject Firestore service
     public afAuth: AngularFireAuth , // Inject Firebase auth service
     public router: Router,  
-    public ngZone: NgZone // NgZone service to remove outside scope warning
+    public ngZone: NgZone, // NgZone service to remove outside scope warning
+    public snackBar: MatSnackBar
   ) {    
     /* Saving user data in localstorage when 
     logged in and setting up null when logged out */
@@ -40,17 +44,29 @@ export class AuthService {
        
       
         this.ngZone.run(() => {
-          this.SetUserData(result.user).then((res)=>{
-
-            console.log(res);
-
+          this.SetUserData(result.user);
+        
+          this.snackBar.open(`Login Success`, '', {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            panelClass: 'login-notify'
+          });
+          interval(1000).subscribe(() =>{ 
+            
             this.router.navigate(['dashboard']);
           });
-          
+       
         })
        
       }).catch((error) => {
-        window.alert(error.message)
+        
+        this.snackBar.open(error.message, '', {
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          panelClass: 'error-notify'
+        });
       })
   }
 
@@ -62,28 +78,50 @@ export class AuthService {
       .then((result) => {
         /* Call the SendVerificaitonMail() function when new user sign 
         up and returns promise */
+        this.snackBar.open('Signup Success, Verification Link send to your Email, please verify to login', '', {
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          panelClass: 'login-notify'
+        });
         this.SendVerificationMail();
         this.SetUserData(result.user);
+        this.router.navigate(['']);
       }).catch((error) => {
-        window.alert(error.message)
+       
+        this.snackBar.open(error.message, '', {
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          panelClass: 'error-notify'
+        });
       })
   }
 
   // Send email verfificaiton when new user sign up
   SendVerificationMail() {
-    return this.afAuth.auth.currentUser!.sendEmailVerification()
-    .then(() => {
-      this.router.navigate(['verify-email']).then();
-    })
+    return this.afAuth.auth.currentUser!.sendEmailVerification();
   }
 
   // Reset Forggot password
   ForgotPassword(passwordResetEmail:any) {
     return this.afAuth.auth.sendPasswordResetEmail(passwordResetEmail)
     .then(() => {
-      window.alert('Password reset email sent, check your inbox.');
+     
+
+      this.snackBar.open('Password reset email sent, check your inbox.', '', {
+        duration: 3000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+        panelClass: 'login-notify'
+      });
     }).catch((error) => {
-      window.alert(error)
+      this.snackBar.open(error.message, '', {
+        duration: 3000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+        panelClass: 'error-notify'
+      });
     })
   }
 
@@ -98,11 +136,28 @@ export class AuthService {
     return this.afAuth.auth.signInWithPopup(provider)
     .then((result) => {
        this.ngZone.run(() => {
-          this.router.navigate(['dashboard']).then();
+     
+        this.SetUserData(result.user);
+      
+        this.snackBar.open(`Login Success Welcome ${this.userData.displayName}`, '', {
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          panelClass: 'login-notify'
+        });
+        interval(1000).subscribe(() =>{ 
+          this.router.navigate(['dashboard']);
+
+        });
         })
-      this.SetUserData(result.user);
+     
     }).catch((error) => {
-      window.alert(error)
+      this.snackBar.open(error.message, '', {
+        duration: 3000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+        panelClass: 'error-notify'
+      });
     })
   }
 
@@ -126,14 +181,20 @@ export class AuthService {
     // Returns true when user is looged in and email is verified
 get isLoggedIn(): boolean {
   const user = JSON.parse(localStorage.getItem('user')|| 'null');
-  console.log(user);
-  return (user !== null && user.emailVerified !== false) ? true : false;
+ 
+  return (user != null && user.emailVerified != false) ? true : false;
 }
 
   // Sign out 
   SignOut() {
     return this.afAuth.auth.signOut().then(() => {
       localStorage.removeItem('user');
+      this.snackBar.open('Logout Success', '', {
+        duration: 3000,
+        horizontalPosition: 'right',
+        verticalPosition: 'top',
+        panelClass: 'login-notify'
+      });
       this.router.navigate(['']).then();
     })
   }
