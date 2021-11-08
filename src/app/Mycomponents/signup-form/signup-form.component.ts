@@ -20,10 +20,11 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 
 
 export class SignupFormComponent{
-  loading = false;
-  loading1 = false;
+  public hide = true;
+  public loading = false;
+  public load1 = false;
   constructor(
-    public authService: AuthService
+    public authService: AuthService,
   ) { }
 
   form  = new FormGroup({
@@ -41,6 +42,24 @@ export class SignupFormComponent{
   
 
   matcher = new MyErrorStateMatcher();
+
+  gLogin(): void{
+    this.load1 = true;
+    this.authService.GoogleAuth().then(()=>{
+
+    
+      this.load1 = !this.load1;
+     
+     }).catch(()=>{
+      this.load1 = !this.load1;
+
+    
+     });
+
+     
+
+     
+   }
 
   signup(useremail:any,passwords:any): any{
 
@@ -60,6 +79,8 @@ export class SignupFormComponent{
     return false;
   }
   }
+
+
 
   get f() {  return this.form.controls; }
   

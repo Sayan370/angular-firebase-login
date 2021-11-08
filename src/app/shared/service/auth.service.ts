@@ -1,5 +1,4 @@
 import { Injectable, NgZone } from '@angular/core';
-import { interval } from 'rxjs';
 import { User } from "../services/user";
 import { auth } from 'firebase/app';
 import { AngularFireAuth } from "@angular/fire/auth";
@@ -12,7 +11,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 })
 
 export class AuthService {
-  userData: any; // Save logged in user data
+  public userData: any; // Save logged in user data
  
 
   constructor(
@@ -25,8 +24,13 @@ export class AuthService {
     /* Saving user data in localstorage when 
     logged in and setting up null when logged out */
     this.afAuth.authState.subscribe(user => {
+     
       if (user) {
+      
+       
         this.userData = user;
+        console.log(JSON.stringify(this.userData));
+        localStorage.clear();
         localStorage.setItem('user', JSON.stringify(this.userData));
         JSON.parse(localStorage.getItem('user') || 'null');
       } else {
@@ -42,27 +46,40 @@ export class AuthService {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password)
       .then((result) => {
        
+   
       
         this.ngZone.run(() => {
           this.SetUserData(result.user);
-        
-          this.snackBar.open(`Login Success`, '', {
-            duration: 3000,
+        if(result.user!.emailVerified==false){
+
+          this.snackBar.open(`Please Verify Your Email To login`, '', {
+            duration: 5000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            panelClass: 'error-notify'
+          });
+        }else{
+          this.snackBar.open(`Login Success Welcome ${result.user!.displayName!=null ? result.user!.displayName : ``}`, '', {
+            duration: 5000,
             horizontalPosition: 'right',
             verticalPosition: 'top',
             panelClass: 'login-notify'
           });
-          interval(1000).subscribe(() =>{ 
-            
+
+        }
+        
+        setTimeout(()=>{
             this.router.navigate(['dashboard']);
-          });
+
+        },1000);
+     
        
         })
        
       }).catch((error) => {
         
         this.snackBar.open(error.message, '', {
-          duration: 3000,
+          duration: 5000,
           horizontalPosition: 'right',
           verticalPosition: 'top',
           panelClass: 'error-notify'
@@ -79,7 +96,7 @@ export class AuthService {
         /* Call the SendVerificaitonMail() function when new user sign 
         up and returns promise */
         this.snackBar.open('Signup Success, Verification Link send to your Email, please verify to login', '', {
-          duration: 3000,
+          duration: 5000,
           horizontalPosition: 'right',
           verticalPosition: 'top',
           panelClass: 'login-notify'
@@ -90,7 +107,7 @@ export class AuthService {
       }).catch((error) => {
        
         this.snackBar.open(error.message, '', {
-          duration: 3000,
+          duration: 5000,
           horizontalPosition: 'right',
           verticalPosition: 'top',
           panelClass: 'error-notify'
@@ -110,14 +127,18 @@ export class AuthService {
      
 
       this.snackBar.open('Password reset email sent, check your inbox.', '', {
-        duration: 3000,
+        duration: 5000,
         horizontalPosition: 'right',
         verticalPosition: 'top',
         panelClass: 'login-notify'
       });
+      setTimeout(()=>{
+      this.router.navigate(['']);
+
+      },1000);
     }).catch((error) => {
       this.snackBar.open(error.message, '', {
-        duration: 3000,
+        duration: 5000,
         horizontalPosition: 'right',
         verticalPosition: 'top',
         panelClass: 'error-notify'
@@ -128,7 +149,13 @@ export class AuthService {
 
   // Sign in with Google
   GoogleAuth() {
-    return this.AuthLogin(new auth.GoogleAuthProvider());
+    return this.AuthLogin(new auth.GoogleAuthProvider()).then(()=>{
+
+      return true;
+    }).catch(()=>{
+
+      return false;
+    });
   }
 
   // Auth logic to run auth providers
@@ -138,49 +165,106 @@ export class AuthService {
        this.ngZone.run(() => {
      
         this.SetUserData(result.user);
-      
-        this.snackBar.open(`Login Success Welcome ${this.userData.displayName}`, '', {
-          duration: 3000,
+
+        setTimeout(()=>{
+        this.router.navigate(['dashboard']);
+
+        },1000);
+        
+
+       
+        if(result.user!.emailVerified==false){
+
+          this.snackBar.open(`Please Verify Your Email To login`, '', {
+            duration: 5000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            panelClass: 'error-notify'
+          });
+        }else{
+        this.snackBar.open(`Login Success Welcome ${result.user!.displayName!=null ? result.user!.displayName : ``}`, '', {
+          duration: 5000,
           horizontalPosition: 'right',
           verticalPosition: 'top',
           panelClass: 'login-notify'
         });
-        interval(1000).subscribe(() =>{ 
-          this.router.navigate(['dashboard']);
 
-        });
+       
+
+      }
+     
+    
+
+     
         })
+
+       
      
     }).catch((error) => {
       this.snackBar.open(error.message, '', {
-        duration: 3000,
+        duration: 5000,
         horizontalPosition: 'right',
         verticalPosition: 'top',
         panelClass: 'error-notify'
       });
+
+      
+      
     })
   }
 
   /* Setting up user data when sign in with username/password, 
   sign up with username/password and sign in with social auth  
   provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
+
+  UpdateLocalStorage(){
+
+    this.afAuth.authState.subscribe(user => {
+     
+      if (user) {
+      
+       
+        this.userData = user;
+        console.log(JSON.stringify(this.userData));
+        localStorage.clear();
+        localStorage.setItem('user', JSON.stringify(this.userData));
+        JSON.parse(localStorage.getItem('user') || 'null');
+      } else {
+        localStorage.setItem('user', '');
+        JSON.parse(localStorage.getItem('user') || 'null');
+      }
+    })
+  }
   SetUserData(user:any) {
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
-    const userData: User = {
+    let userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
+
+ 
+    
+    let userData: User = {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
       photoURL: user.photoURL,
       emailVerified: user.emailVerified
     }
+
+   
+this.UpdateLocalStorage();
+   
+  
     return userRef.set(userData, {
       merge: true
     })
+
+
+    
   }
 
     // Returns true when user is looged in and email is verified
 get isLoggedIn(): boolean {
-  const user = JSON.parse(localStorage.getItem('user')|| 'null');
+  let user = JSON.parse(localStorage.getItem('user')|| 'null');
+
+
  
   return (user != null && user.emailVerified != false) ? true : false;
 }
@@ -190,7 +274,7 @@ get isLoggedIn(): boolean {
     return this.afAuth.auth.signOut().then(() => {
       localStorage.removeItem('user');
       this.snackBar.open('Logout Success', '', {
-        duration: 3000,
+        duration: 5000,
         horizontalPosition: 'right',
         verticalPosition: 'top',
         panelClass: 'login-notify'

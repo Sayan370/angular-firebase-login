@@ -10,7 +10,7 @@
     background-color: #f44336;
 }
 
-.show-overflow { background-color:grey !important; }
+.show-overflow { background-image: linear-gradient(to right, #00c6ff 0%, #0072ff  51%, #00c6ff  100%) !important; }
 .mat-form-field-appearance-fill .mat-form-field-flex{
 
     background-color: white;
@@ -19,4 +19,89 @@
 .mb-10{
 
     margin-bottom: 10px;
+}
+
+
+
+.btn-login {background-image: linear-gradient(to right, #00c6ff 0%, #0072ff  51%, #00c6ff  100%)}
+.btn-login {
+   margin: 10px;
+   width:200px;
+   padding: 15px 45px;
+   text-align: center;
+   text-transform: uppercase;
+   transition: 0.5s;
+   background-size: 200% auto;
+   color: white;            
+   box-shadow: 0 0 20px #eee;
+   border-radius: 10px;
+   display: block;
+ }
+
+ .btn-login:hover {
+   background-position: right center; /* change the direction of the change here */
+   color: #fff;
+   text-decoration: none;
+ }
+
+ .form-icon{
+
+    background: -moz-linear-gradient(to right, #00c6ff 0%, #0072ff  51%, #00c6ff  100%);
+    background: -webkit-linear-gradient(to right, #00c6ff 0%, #0072ff  51%, #00c6ff  100%);
+    background: linear-gradient(to left, #00c6ff 0%, #0072ff  51%, #00c6ff  100%);
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+ }
+
+ .heading{
+    background: -webkit-linear-gradient(#00c6ff 0%, #0072ff  51%, #00c6ff  100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+ }
+
+ .forgot-password{
+
+color:red;
+ }
+
+ 
+@keyframes spinner {
+    to {transform: rotate(360deg);}
+  }
+   
+  .spinner:before {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    margin-left: -10px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    border-top-color: #000000;
+    animation: spinner .8s linear infinite;
+  }
+
+  
+ .cardx{
+
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px !important;
+ }
+
+ @media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+body{
+    background-image: linear-gradient(to right, #00c6ff 0%, #0072ff  51%, #00c6ff  100%) !important;
+}
+
+ }
+
+ body{
+    background-image: linear-gradient(to right, #00c6ff 0%, #0072ff  51%, #00c6ff  100%) !important;
 }

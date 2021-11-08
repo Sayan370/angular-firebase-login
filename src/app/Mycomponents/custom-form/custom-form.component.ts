@@ -17,6 +17,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./custom-form.component.css']
 })
 export class CustomFormComponent {
+  hide = true;
   loading = false;
   loading1 = false;
   
@@ -70,6 +71,8 @@ export class CustomFormComponent {
     this.loading1 = true;
     this.authService.GoogleAuth().then(()=>{
 
+      this.loading1 = false;
+     }).catch(()=>{
       this.loading1 = false;
      });
    }

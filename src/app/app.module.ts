@@ -13,6 +13,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatIconModule} from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CustomFormComponent } from './Mycomponents/custom-form/custom-form.component';
@@ -52,6 +53,7 @@ import { AuthGuard } from './shared/guard/auth.guard';
     MatCardModule,
     MatGridListModule,
     MatSnackBarModule,
+    MatIconModule,
     FormsModule,
     ReactiveFormsModule,
     MatInputModule 

@@ -77,6 +77,10 @@ text-decoration: none;
 
         font-size: 12px;
     }
+    .pos-left > ::ng-deep .mat-grid-tile-content{
+
+        right:0 !important;
+    }
 }
 
 @keyframes spinner {

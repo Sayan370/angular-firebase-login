@@ -1,25 +1,25 @@
 <div class="container" *ngIf="authService.userData as user">
 	<div class="row">
-		<div class="col-lg-6 col-sm-12 offset-lg-3">
+		<div class="col-lg-6 col-sm-12 offset-lg-3 mt-100">
 
-            <div class="card hovercard">
+            <div class="card hovercard bg-white cardx">
                 <div class="cardheader">
 
                 </div>
                 <div class="avatar">
-                    <img alt=""  src="{{(user.photoURL) ? user.photoURL : 'http://lorempixel.com/100/100/people/9/'}}">
+                    <img alt=""  src="{{(user.photoURL) ? user.photoURL : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}}">
                 </div>
                 <div class="info">
                     <h5>{{(user.displayName) ? user.displayName : 'User'}}</h5>
-                    <div class="desc"> <a class=" btn btnx btn-primary btn-sm" rel="publisher"
-                      href="mailto:{{user.email}}">
-                       <i class="fas fa-envelope"></i>
-                   </a> {{user.email}} <span><i class="fas fa-{{(user.emailVerified) ? 'check color-green' : 'times color-red'}}"></i></span> </div>
+                    <div class="desc"> 
+                        
+                        <a mat-mini-fab color="primary" type="button" class="btn googleBtn"   href="mailto:{{user.email}}"><mat-icon >email</mat-icon></a>
+                        <strong> {{user.email}}</strong> <span> <i class="fas fa-{{(user.emailVerified) ? 'check color-green' : 'times color-red'}}"></i></span> </div>
                  
                    
                 </div>
                 <div class="bottom">
-                    <a class="btn btn-danger w-100  btn-block" (click)="authService.SignOut()">
+                    <a class="btn w-100  btn-block" mat-raised-button color="warn" (click)="authService.SignOut()">
                         <i class="fa fa-power-off"></i>
                     </a>
                   

@@ -194,9 +194,10 @@
 }
 
 .card.hovercard .cardheader {
-    background: url("http://lorempixel.com/850/280/nature/4/");
+    background: url("https://149369349.v2.pressablecdn.com/wp-content/uploads/2012/10/twitter-cover.jpg");
     background-size: cover;
-    height: 135px;
+    background-repeat: no-repeat;
+    height: 180px;
 }
 
 .card.hovercard .avatar {
@@ -235,6 +236,10 @@
     color: #737373;
     text-overflow: ellipsis;
 }
+.mt-100{
+
+    margin-top: 100px;
+}
 
 .card.hovercard .bottom {
     padding: 0 20px;
@@ -249,3 +254,8 @@
 .color-red{
     color: red;
 }
+.bg-white{
+    background-color: white !important;
+}
+
+

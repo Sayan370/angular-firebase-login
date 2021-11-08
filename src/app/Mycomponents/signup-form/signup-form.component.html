@@ -1,13 +1,11 @@
-<div class="example-button-row" style="text-align: center;" >
-    <button mat-raised-button color="warn" type="button" class="btn googleBtn" (click)="authService.GoogleAuth()"><i class="fab fa-google-plus-g"></i> Sign in With Google</button>
-  </div>
-  <div class="RuleWithText mt-20 mb-20">Or</div>
+
 <form [formGroup]="form" (submit)="signup(userEmail.value, userPwd.value)" class="example-form mt-20">
    
     <mat-form-field class="example-full-width w-100 mb-10" appearance="outline">
       <mat-label>Email</mat-label>
       <input type="email" matInput formControlName="emailFormControl" #userEmail [errorStateMatcher]="matcher"
              placeholder="Ex. pat@example.com">
+             <mat-icon class="form-icon" matPrefix>email</mat-icon>
       <mat-hint>Errors appear instantly!</mat-hint>
       <mat-error *ngIf="f.emailFormControl.hasError('email') && !f.emailFormControl.hasError('required')">
         Please enter a valid email address
@@ -18,8 +16,12 @@
     </mat-form-field>
     <mat-form-field class="example-full-width w-100" appearance="outline">
       <mat-label>Password</mat-label>
-      <input type="password" matInput formControlName="passwordFormControl" #userPwd [errorStateMatcher]="matcher"
+      <input [type]="hide ? 'password' : 'text'" matInput formControlName="passwordFormControl" #userPwd [errorStateMatcher]="matcher"
              placeholder="Enter Password">
+             <mat-icon class="form-icon" matPrefix>lock</mat-icon>
+             <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon class="form-icon">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
       <mat-hint>Errors appear instantly!</mat-hint>
       <mat-error *ngIf="f.passwordFormControl.hasError('password') && !f.passwordFormControl.hasError('required')">
         Please enter a valid Password
@@ -31,11 +33,19 @@
         Password is <strong>required</strong>
       </mat-error>
     </mat-form-field>
-    <mat-grid-list cols="2" rowHeight="2:1">
+    <mat-grid-list cols="1" rowHeight="6:1">
       <mat-grid-tile class="pos-left"><a class="font-sm" routerLink="">Already Have An Account ?</a></mat-grid-tile>
-      <mat-grid-tile class="pos-right"><button mat-raised-button color="primary"  [class.spinner]="loading" [disabled]="loading" type="submit">Sign Up</button></mat-grid-tile>
    
   </mat-grid-list>
-
+  <mat-grid-list cols="1" rowHeight="6:1">
+    <mat-grid-tile >
+  <button mat-raised-button color="primary" class="btn-login"  [class.spinner]="loading" [disabled]="loading" type="submit">Sign Up</button>
+</mat-grid-tile>
+</mat-grid-list>
 
   </form>
+  <div class="RuleWithText mb-20">Or</div>
+  <div class="example-button-row" style="text-align: center;" >
+    <button mat-mini-fab color="warn" type="button" class="btn googleBtn"  [class.spinner]="load1" [disabled]="load1" (click)="gLogin()"><i class="fab fa-google-plus-g"></i></button>
+  </div>
+  
