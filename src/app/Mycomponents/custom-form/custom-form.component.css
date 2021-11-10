@@ -71,5 +71,25 @@ text-decoration: none;
 .no-decoration{
     text-decoration: none;
 }
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+
+.mb-sm-15{
+
+margin-bottom: 15px;
+} 
+.mt-sm-15{
+
+    margin-top: 15px ;
+}
+
+
+.font-12{
+
+    font-size: 12px;
+}
+
+
+}
 
 

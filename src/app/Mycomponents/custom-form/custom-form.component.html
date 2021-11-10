@@ -37,13 +37,13 @@
     
     <mat-grid-list cols="2" rowHeight="3:1">
       <mat-grid-tile class="pos-left">
-        <a routerLink="/register">Create An Account</a><br/>
+        <a class="font-12" routerLink="/register">Create An Account</a><br/>
       
       </mat-grid-tile>
-      <mat-grid-tile class="pos-right"><a class="no-decoration forgot-password" routerLink="/forgot-password">Forgot Password</a></mat-grid-tile>
+      <mat-grid-tile class="pos-right"><a class="no-decoration forgot-password font-12" routerLink="/forgot-password">Forgot Password</a></mat-grid-tile>
    
   </mat-grid-list>
-  <mat-grid-list cols="1" rowHeight="8:1">
+  <mat-grid-list class="mb-sm-15 mt-sm-15" cols="1" rowHeight="8:1">
 
     <mat-grid-tile >
       <button mat-raised-button color="primary" class="btn-login"  type="submit" [class.spinner]="loading" [disabled]="loading"  >Sign in</button>

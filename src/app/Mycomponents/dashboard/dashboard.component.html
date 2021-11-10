@@ -7,7 +7,7 @@
 
                 </div>
                 <div class="avatar">
-                    <img alt=""  src="{{(user.photoURL) ? user.photoURL : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}}">
+                    <img alt=""  src="{{(user.photoURL) ? user.photoURL : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}}" onError="this.src='https://cdn-icons-png.flaticon.com/512/149/149071.png'">
                 </div>
                 <div class="info">
                     <h5>{{(user.displayName) ? user.displayName : 'User'}}</h5>

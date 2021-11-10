@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import {FormControl, FormGroupDirective,NgForm, Validators, FormGroup} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { AuthService } from "../../shared/service/auth.service";
@@ -16,9 +16,21 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class ForgotPasswordComponent{
   loading = false;
+  public breakpoint?: number;
   constructor(
     public authService: AuthService
   ) { }
+
+  ngOnInit() {
+   
+    this.breakpoint = (window.innerWidth <= 767) ? 1 : 2;
+ 
+  }
+
+  onResize(event:any) {
+   
+    this.breakpoint = (event.target.innerWidth <= 767) ? 1 : 2;
+  }
 
   form  = new FormGroup({
     emailFormControl : new FormControl('', [

@@ -29,7 +29,7 @@ export class AuthService {
       
        
         this.userData = user;
-        console.log(JSON.stringify(this.userData));
+      
         localStorage.clear();
         localStorage.setItem('user', JSON.stringify(this.userData));
         JSON.parse(localStorage.getItem('user') || 'null');
@@ -225,7 +225,7 @@ export class AuthService {
       
        
         this.userData = user;
-        console.log(JSON.stringify(this.userData));
+     
         localStorage.clear();
         localStorage.setItem('user', JSON.stringify(this.userData));
         JSON.parse(localStorage.getItem('user') || 'null');
