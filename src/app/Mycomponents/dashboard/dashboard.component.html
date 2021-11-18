@@ -1,30 +1,35 @@
 <div class="container" *ngIf="authService.userData as user">
 	<div class="row">
-		<div class="col-lg-6 col-sm-12 offset-lg-3 mt-100">
-
-            <div class="card hovercard bg-white cardx">
-                <div class="cardheader">
-
-                </div>
-                <div class="avatar">
-                    <img alt=""  src="{{(user.photoURL) ? user.photoURL : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}}" onError="this.src='https://cdn-icons-png.flaticon.com/512/149/149071.png'">
-                </div>
-                <div class="info">
-                    <h5>{{(user.displayName) ? user.displayName : 'User'}}</h5>
-                    <div class="desc"> 
+		<div class="col-lg-6 col-sm-12 offset-lg-3 mt-70">
+            <mat-card class="cardx">
+              
+          
+            <img mat-card-image src="https://149369349.v2.pressablecdn.com/wp-content/uploads/2012/10/twitter-cover.jpg" alt="Photo of a Shiba Inu">
+            <div class="avatar text-center">
+                <img alt="" class="avt-img"  src="{{(user.photoURL) ? user.photoURL : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'}}" onError="this.src='https://cdn-icons-png.flaticon.com/512/149/149071.png'">
+            </div>
+                <mat-card-title class="mt-55">
+                  <h4 class="text-center heading" style="margin-bottom:30px;">{{(user.displayName) ? user.displayName : 'User'}}</h4>
+              
+                </mat-card-title>
+                <mat-card-content>
+              
+                    <div class="desc text-center"> 
                         
                         <a mat-mini-fab color="primary" type="button" class="btn googleBtn"   href="mailto:{{user.email}}"><mat-icon >email</mat-icon></a>
                         <strong> {{user.email}}</strong> <span> <i class="fas fa-{{(user.emailVerified) ? 'check color-green' : 'times color-red'}}"></i></span> </div>
-                 
-                   
-                </div>
-                <div class="bottom">
-                    <a class="btn w-100  btn-block" mat-raised-button color="warn" (click)="authService.SignOut()">
+              
+              
+                </mat-card-content>
+                <mat-card-footer class="plr-30">
+                    <button class="w-100  btn-block" mat-raised-button color="warn" (click)="authService.SignOut()">
                         <i class="fa fa-power-off"></i>
-                    </a>
-                  
-                </div>
-            </div>
+                    </button>
+                </mat-card-footer>
+               
+              
+              </mat-card>
+
 
         </div>
 

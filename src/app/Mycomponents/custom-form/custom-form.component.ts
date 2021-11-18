@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,NgZone } from '@angular/core';
 import {FormControl, FormGroupDirective,NgForm, Validators, FormGroup} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { AuthService } from "../../shared/service/auth.service";
@@ -23,7 +23,7 @@ export class CustomFormComponent {
   
   constructor(
     public authService: AuthService,
-  
+    private zone:NgZone
 
 
    
@@ -70,8 +70,9 @@ export class CustomFormComponent {
   gLogin(): void{
     this.loading1 = true;
     this.authService.GoogleAuth().then(()=>{
-
+      this.zone.run(() => { // <== added
       this.loading1 = false;
+      });
      }).catch(()=>{
       this.loading1 = false;
      });

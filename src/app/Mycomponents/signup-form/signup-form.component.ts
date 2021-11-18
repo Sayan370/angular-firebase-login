@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,NgZone } from '@angular/core';
 import {FormControl, FormGroupDirective,NgForm, Validators, FormGroup} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { AuthService } from "../../shared/service/auth.service";
@@ -25,6 +25,7 @@ export class SignupFormComponent{
   public load1 = false;
   constructor(
     public authService: AuthService,
+    private zone:NgZone
   ) { }
 
   form  = new FormGroup({
@@ -39,19 +40,24 @@ export class SignupFormComponent{
     ]),
   
   }); 
-  
+
 
   matcher = new MyErrorStateMatcher();
 
   gLogin(): void{
     this.load1 = true;
     this.authService.GoogleAuth().then(()=>{
-
+      this.zone.run(() => { // <== added
     
-      this.load1 = !this.load1;
+      this.load1 = false;
+     
+
+      });
+     
      
      }).catch(()=>{
-      this.load1 = !this.load1;
+      this.load1 = false;
+      console.log("error");
 
     
      });
